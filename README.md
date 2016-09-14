@@ -1,13 +1,13 @@
 
 -- STEPS TO ADD A DATABASE WITH TABLES TO HEROKU
-
+``` bash
 > mkdir q2tutorial
 > cd q2tutorial
 > touch .env
 
 > express --hbs --git
 > npm install
-
+```
 - Go to github and create a repo and copy the address
 
 > git init
