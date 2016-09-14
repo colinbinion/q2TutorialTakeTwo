@@ -1,2 +1,26 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+
+  <h1>MY TODO APP</h1>
+
+  <ul>
+  {{#each items}}
+  <li>{{this.name}}</li> <span class='completed'><a href="/api/v1/items/delete/{{this.id}}">X</a></span>
+  <p>{{this.description}}</p>
+
+  {{/each}}
+  </ul>
+  <h3> Create a todo item </h3>
+  <section>
+    <form class='add-item' action='/api/v1/items' method='post'>
+      <div>
+        <label for='item-name'> What do you want to do? </label>
+        <input type='text' name='name' value=''></input>
+      </div>
+      <div>
+        <label for='item-description'>Tell me more </label>
+        <textarea name='description' rows='8' cols= '40'></textarea>
+      </div>
+      <div>
+        <input type='submit'>
+      </div>
+    </form>
+  </section>

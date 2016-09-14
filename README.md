@@ -191,7 +191,7 @@ example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-
 
   app.use('/api', api)
 
-  -- in index.js add the api data
+  -- in api/index.js add the api data
   'use strict'
 
   const express = require('express');
@@ -231,6 +231,6 @@ example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-
   {{#each items}}
   <li>{{this.name}}
 
-  -- add this code - > 
+  -- add this code - >
 
   <span class='completed'><a href="/api/v1/items/delete/{{this.id}}">X</a></span>
