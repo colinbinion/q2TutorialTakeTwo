@@ -9,7 +9,7 @@
 > npm install
 ```
 - Go to github and create a repo and copy the address
-
+```bash
 > git init
 > git add .
 > git commit -m "first commit"
@@ -27,7 +27,7 @@
 
 > createdb [name of database] // we will call it 'q2tutorialdb' for the rest of the project
 > atom .
-
+```
 - add .env inside the .gitignore file
 
 - Change client and connection in the knexfile.js
@@ -40,9 +40,9 @@
       },
 ```
 - Remove the staging object from the knexfile.js
-
+```bash
 > knex migrate:make [name of table] // we will call it todos
-
+```
 - Now from the migrations folder find the migration file that you just made
 - Add the table info (example below)
 ```javascript
@@ -58,19 +58,23 @@ exports.down = function(knex, Promise) {
   return knex.schema.dropTable('todos')
 };
 ```
+```bash
 > knex migrate:latest
-
+```
 - Check to see if the table is there
+```bash
 > psql [name of database]
  =# TABLE [name of table];
-
+```
 - Get out of psql (type : '\q' + hit enter)
+```bash
 > git add .
 > git commit -m "first migration"
-
+```
 - Add the data to your table
+```bash
 > knex seed:make [name of data]
-
+```
 - Go to the seed folder and click on the file that you just created
 - Change all of the 'table_name' to the name of your table
 - Insert seed data in the object to match with the columns that you made in the table
@@ -80,17 +84,17 @@ knex('todos').insert({id: 1, name: "dummy data1", description: "just add it in"}
 knex('todos').insert({id: 2, name: "dummy data2", description: "just add it in"}),
 knex('todos').insert({id: 3, name: "dummy data3", description: "just add it in"})
 ```
-
+```bash
 > knex seed:run
 > psql [name of database]
  =# TABLE [name of table]
-
+```
 - create a database on heroku
 - heroku docs (https://devcenter.heroku.com/articles/getting-started-with-nodejs#provision-a-database)
-
+```bash
 > heroku addons:create heroku-postgresql:hobby-dev
 > heroku config
-
+```
 - Copy the entire DATABASE_URL location
 - Paste it into the .env file
 - Change the colon after DATABASE_URL to an equal sign
@@ -103,11 +107,11 @@ DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-54-235-183
 
 - Go to the knexfile.js file
 - set production.connection: process.env.DATABASE_URL,
-
+```bash
 > npm install dotenv --save
-
-- Add "var dotenv = require('dotenv').config()" to the top of the knexfile.js file
-
+```
+- Add ```javascript "var dotenv = require('dotenv').config()" ```to the top of the knexfile.js file
+```bash
 > knex migrate:latest --env production
 > knex seed:run --env production
 
@@ -117,18 +121,20 @@ DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-54-235-183
 
 > git push heroku master
 > heroku open
-
+```
 - from the command line you can check to see if the tables are added to your heroku backend
+```bash
 > heroku pg:psql
  => \d // tells you what tables are on the database
  => SELECT * from [name of table]
-
+```
  - So now our database is launched on heroku and our table called "todos" is on there and it contains our seed data.
 
  - Create a new directory and add a knex config file to the directory
+ ```bash
  > mkdir db
  > touch db/knex_config.js
-
+```
  - Now we need to add a few things to that knex_config.js file
 ```javascript
 'use strict'
