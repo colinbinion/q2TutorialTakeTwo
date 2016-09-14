@@ -1,3 +1,4 @@
+
 -- STEPS TO ADD A DATABASE WITH TABLES TO HEROKU
 
 > mkdir q2tutorial
@@ -30,20 +31,21 @@
 - add .env inside the .gitignore file
 
 - Change client and connection in the knexfile.js
+```javascript
       development: {
         client: 'postgres',
         connection: {
           database: name of database created earlier wrapped in quotes // ex = : 'q2tutorialdb'
         }
       },
-
+```
 - Remove the staging object from the knexfile.js
 
 > knex migrate:make [name of table] // we will call it todos
 
 - Now from the migrations folder find the migration file that you just made
 - Add the table info (example below)
-
+```javascript
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('todos', function(table){
     table.increments();
@@ -55,7 +57,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('todos')
 };
-
+```
 > knex migrate:latest
 
 - Check to see if the table is there
@@ -73,10 +75,11 @@ exports.down = function(knex, Promise) {
 - Change all of the 'table_name' to the name of your table
 - Insert seed data in the object to match with the columns that you made in the table
 ex :
+```javascript
 knex('todos').insert({id: 1, name: "dummy data1", description: "just add it in"}),
 knex('todos').insert({id: 2, name: "dummy data2", description: "just add it in"}),
 knex('todos').insert({id: 3, name: "dummy data3", description: "just add it in"})
-
+```
 
 > knex seed:run
 > psql [name of database]
@@ -92,7 +95,10 @@ knex('todos').insert({id: 3, name: "dummy data3", description: "just add it in"}
 - Paste it into the .env file
 - Change the colon after DATABASE_URL to an equal sign
 - At the end of the address add "?ssl=true"
-example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-54-235-183-28.compute-1.amazonaws.com:5432/d8pr5444mns72?ssl=true
+example :
+```javascript
+DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-54-235-183-28.compute-1.amazonaws.com:5432/d8pr5444mns72?ssl=true
+```
 - make sure it is all on one line (sometimes it adds spaces in the address)
 
 - Go to the knexfile.js file
@@ -124,7 +130,7 @@ example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-
  > touch db/knex_config.js
 
  - Now we need to add a few things to that knex_config.js file
-
+```javascript
 'use strict'
  const knex = require('knex')
  const config = require('../knexfile.js');
@@ -134,16 +140,18 @@ example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-
 
  module.exports = pg
 
+ ```
+
  //this file tells knex which database to connect to
 
- - On the routes/index.js file lets bring in pg
+ - On the routes/index.js file let's bring in pg
 
   const pg = require('../db/knex_config.js')
 
   - at the top of the routes/index.js file let's add 'use strict' to make heroku happy
 
   - now we want to tell knex what to populate when we hit certain routes -> so in the same index.js file let's add the following :
-
+```javascript
   router.get('/', function(req, res, next) {
     pg('todos').select()
       .then((rows)=>{
@@ -154,9 +162,9 @@ example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-
         next(err)
       })
   });
-
+```
   -- Now lets make it so that the data from the db shows up on our browser. Lets also make a form to add todos. In the /views/index.js file add the following:
-
+```javascript
   <h1>MY TODO APP</h1>
 
   <ul>
@@ -182,11 +190,11 @@ example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-
       </div>
     </form>
   </section>
-
+```
   -- in app.js add 'use strict' at the top
   -- now we need to create a folder for the api called "api" & make a file called 'index.js'
   -- in app.js add api information
-
+```javascript
   const api = require('./api/index.js');
 
   app.use('/api', api)
@@ -226,11 +234,16 @@ example : DATABASE_URL = postgres://blahblahblah:lfQwRfNea3qGrwOxJTYYtdWGkd@ec2-
 
   module.exports = router;
 
+  ```
+
   -- in the views/index.hbs after the following line of code
+  ```javascript
   <ul>
   {{#each items}}
   <li>{{this.name}}
-
+```
   -- add this code - >
-
+```javascript
   <span class='completed'><a href="/api/v1/items/delete/{{this.id}}">X</a></span>
+```
+  -- add everything to github and heroku
